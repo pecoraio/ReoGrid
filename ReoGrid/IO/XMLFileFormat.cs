@@ -822,8 +822,10 @@ namespace unvell.ReoGrid
 			public string padding;
 			[XmlAttribute("rotate-angle")]
 			public string rotateAngle;
+            [XmlAttribute("shrinkToFit")]
+            public string shrinkToFit;
 
-			[XmlElement("fill-pattern")]
+            [XmlElement("fill-pattern")]
 			public RGXmlCellStyleFillPattern fillPattern;
 		}
 

@@ -45,140 +45,141 @@ using System.Collections;
 
 namespace unvell.ReoGrid.Drawing
 {
-	/// <summary>
-	/// Represents a rich format text object that could be displayed inside cell or drawing objects.
-	/// </summary>
-	public sealed class RichText
-	{
+    /// <summary>
+    /// Represents a rich format text object that could be displayed inside cell or drawing objects.
+    /// </summary>
+    public sealed class RichText
+    {
 #if WINFORM
-		internal System.Drawing.StringFormat sf = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericTypographic)
-		{
-			FormatFlags = System.Drawing.StringFormatFlags.NoWrap | System.Drawing.StringFormatFlags.MeasureTrailingSpaces,
-		};
+        internal System.Drawing.StringFormat sf = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericTypographic)
+        {
+            FormatFlags = System.Drawing.StringFormatFlags.NoWrap | System.Drawing.StringFormatFlags.MeasureTrailingSpaces,
+        };
 #endif // WINFORM
 
-		private bool suspendUpdateText = false;
+        private bool suspendUpdateText = false;
 
-		/// <summary>
-		/// Suspend update text when size, wrap-mode etc. properties changed.
-		/// </summary>
-		public void SuspendUpdateText()
-		{
-			this.suspendUpdateText = true;
-		}
+        /// <summary>
+        /// Suspend update text when size, wrap-mode etc. properties changed.
+        /// </summary>
+        public void SuspendUpdateText()
+        {
+            this.suspendUpdateText = true;
+        }
 
-		/// <summary>
-		/// Resume update text when size, wrap-mode etc. properties changed.
-		/// </summary>
-		public void ResumeUpdateText()
-		{
-			this.suspendUpdateText = false;
-		}
+        /// <summary>
+        /// Resume update text when size, wrap-mode etc. properties changed.
+        /// </summary>
+        public void ResumeUpdateText()
+        {
+            this.suspendUpdateText = false;
+        }
 
-		#region Constants
-		internal const string BuiltInDefaultFontName = "Calibri";
-		internal const RGFloat BuiltInDefaultFontSize = 10.25f;
-		#endregion // Constants
+        #region Constants
+        internal const string BuiltInDefaultFontName = "Calibri";
+        internal const RGFloat BuiltInDefaultFontSize = 10.25f;
+        #endregion // Constants
 
-		#region Size
-		private Size size;
+        #region Size
+        private Size size;
 
-		/// <summary>
-		/// Get or set the display area size. (in pixel)
-		/// </summary>
-		internal Size Size
-		{
-			get { return this.size; }
-			set
-			{
-				if (this.size != value)
-				{
-					this.size = value;
+        /// <summary>
+        /// Get or set the display area size. (in pixel)
+        /// </summary>
+        internal Size Size
+        {
+            get { return this.size; }
+            set
+            {
+                if (this.size != value)
+                {
+                    this.size = value;
 
-					if (!this.suspendUpdateText)
-					{
-						this.UpdateText();
-					}
-				}
-			}
-		}
-		#endregion // Size
+                    if (!this.suspendUpdateText)
+                    {
+                        this.UpdateText();
+                    }
+                }
+            }
+        }
+        #endregion // Size
 
-		#region Measured Size
-		internal Size measuredSize = new Size(0, 0);
+        #region Measured Size
+        internal Size measuredSize = new Size(0, 0);
 
-		/// <summary>
-		/// Get the actual size to display text.
-		/// </summary>
-		public Size TextSize
-		{
-			get
-			{
-				return this.measuredSize;
-				//var p = this.paragraphs.Count <= 0 ? null : this.paragraphs[this.paragraphs.Count - 1];
-				//return p = null ? new Size(0,0) : new Size(textMaxWidth, p.TextSize.
-				//var lastLine = p.lines.Count <= 0 ? null : p.lines[p.lines.Count - 1];
-				//return lastLine == null ? new Size(0, 0) : new Size(this.textMaxWidth, lastLine.Bottom);
-			}
-		}
-		#endregion // Measured Text Size
+        /// <summary>
+        /// Get the actual size to display text.
+        /// </summary>
+        public Size TextSize
+        {
+            get
+            {
+                return this.measuredSize;
+                //var p = this.paragraphs.Count <= 0 ? null : this.paragraphs[this.paragraphs.Count - 1];
+                //return p = null ? new Size(0,0) : new Size(textMaxWidth, p.TextSize.
+                //var lastLine = p.lines.Count <= 0 ? null : p.lines[p.lines.Count - 1];
+                //return lastLine == null ? new Size(0, 0) : new Size(this.textMaxWidth, lastLine.Bottom);
+            }
+        }
+        #endregion // Measured Text Size
 
-		#region Default Values
-		public string DefaultFontName { get; set; }
+        #region Default Values
+        public string DefaultFontName { get; set; }
 
-		public RGFloat DefaultFontSize { get; set; }
+        public RGFloat DefaultFontSize { get; set; }
 
-		public FontStyles DefaultFontStyles { get; set; }
+        public FontStyles DefaultFontStyles { get; set; }
 
-		/// <summary>
-		/// Get or set the default background color of text.
-		/// </summary>
-		public SolidColor DefaultBackColor { get; set; }
+        /// <summary>
+        /// Get or set the default background color of text.
+        /// </summary>
+        public SolidColor DefaultBackColor { get; set; }
 
-		/// <summary>
-		/// Get or set the default text color.
-		/// </summary>
-		public SolidColor DefaultTextColor { get; set; }
+        /// <summary>
+        /// Get or set the default text color.
+        /// </summary>
+        public SolidColor DefaultTextColor { get; set; }
 
-		/// <summary>
-		/// Get or set the default line height scale for every lines.
-		/// </summary>
-		public RGFloat DefaultLineHeight { get; set; }
+        /// <summary>
+        /// Get or set the default line height scale for every lines.
+        /// </summary>
+        public RGFloat DefaultLineHeight { get; set; }
 
-		/// <summary>
-		/// Determines the default horizontal alignment for paragraphs.
-		/// This option may overwritten by settings from each paragraph.
-		/// </summary>
-		public ReoGridHorAlign DefaultHorizontalAlignment { get; set; }
+        /// <summary>
+        /// Determines the default horizontal alignment for paragraphs.
+        /// This option may overwritten by settings from each paragraph.
+        /// </summary>
+        public ReoGridHorAlign DefaultHorizontalAlignment { get; set; }
 
-		#endregion // Default Values
+        #endregion // Default Values
 
-		/// <summary>
-		/// Determines whether or not allow text displayed out of specified size.
-		/// </summary>
-		public bool Overflow { get; set; }
+        /// <summary>
+        /// Determines whether or not allow text displayed out of specified size.
+        /// </summary>
+        public bool Overflow { get; set; }
 
-		private TextWrapMode textWrap = TextWrapMode.NoWrap;
+        private TextWrapMode textWrap = TextWrapMode.NoWrap;
 
-		/// <summary>
-		/// Determines the text wrap mode.
-		/// </summary>
-		public TextWrapMode TextWrap
-		{
-			get { return textWrap; }
-			set
-			{
-				if (this.textWrap != value)
-				{
-					this.textWrap = value;
+        /// <summary>
+        /// Determines the text wrap mode.
+        /// </summary>
+        public TextWrapMode TextWrap
+        {
+            get { return textWrap; }
+            set
+            {
+                if (this.textWrap != value)
+                {
+                    this.textWrap = value;
 
-					if (!this.suspendUpdateText)
-					{
-						this.UpdateText();
-					}
-				}
-			}
-		}
+                    if (!this.suspendUpdateText)
+                    {
+                        this.UpdateText();
+                    }
+                }
+            }
+        }
+        public bool ShrinkToFit{get;set;}
 
 		/// <summary>
 		/// Get or set the vertical alignment mode.

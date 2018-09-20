@@ -590,7 +590,7 @@ namespace unvell.ReoGrid.IO.OpenXML
 				}
 			}
 
-			bool horAlign = false, verAlign = false, textWrap = false, textRotate = false;
+			bool horAlign = false, verAlign = false, textWrap = false, textRotate = false, shrinkToFit=false;
 			float? indent = null;
 
 			if (rgStyle != null)
@@ -625,9 +625,15 @@ namespace unvell.ReoGrid.IO.OpenXML
 				{
 					textRotate = true;
 				}
-			}
 
-			int existedStyleIndex = styles.cellFormats.FindIndex(s =>
+                if ((rgStyle.Flag & PlainStyleFlag.ShrinkToFit) == PlainStyleFlag.ShrinkToFit)
+                {
+                    shrinkToFit = true;
+                }
+
+            }
+
+            int existedStyleIndex = styles.cellFormats.FindIndex(s =>
 
 				s.fillId == fillId
 				&& s.fontId == fontId
@@ -647,7 +653,10 @@ namespace unvell.ReoGrid.IO.OpenXML
 				&& ((textRotate && s.alignment != null && s.alignment._rotateAngle == (int)rgStyle.RotationAngle)
 				|| (!textRotate && (s.alignment == null || s.alignment.textRotation == null)))
 
-				);
+                && ((shrinkToFit && s.alignment != null && s.alignment.shrinkToFit == "1")
+                || (!shrinkToFit && (s.alignment == null || s.alignment.shrinkToFit == null)))
+
+                );
 
 			if (existedStyleIndex >= 0)
 			{
@@ -694,6 +703,8 @@ namespace unvell.ReoGrid.IO.OpenXML
 					align._rotateAngle = (int)rgStyle.RotationAngle;
 					align.textRotation = (rgStyle.RotationAngle < 0 ? Math.Abs(rgStyle.RotationAngle - 90) : rgStyle.RotationAngle).ToString();
 				}
+                if (shrinkToFit)
+                    align.shrinkToFit = "1";
 
 				style.applyAlignment = "true";
 			}

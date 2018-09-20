@@ -316,6 +316,7 @@ namespace unvell.ReoGrid
 				rt.SuspendUpdateText();
 				rt.Size = cell.Bounds.Size;
 				rt.TextWrap = cell.InnerStyle.TextWrapMode;
+                rt.ShrinkToFit = cell.InnerStyle.ShrinkToFit;
 				rt.ResumeUpdateText();
 				rt.UpdateText();
 			}

@@ -1024,8 +1024,11 @@ namespace unvell.ReoGrid.IO.OpenXML.Schema
 		public string textRotation;
 		[XmlAttribute("wrapText")]
 		public string wrapText;
+        [XmlAttribute("shrinkToFit")]
+        public string shrinkToFit;
 
-		[XmlIgnore]
+
+        [XmlIgnore]
 		internal ReoGridHorAlign _horAlign;
 		[XmlIgnore]
 		internal ReoGridVerAlign _verAlign;

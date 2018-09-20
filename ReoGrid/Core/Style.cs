@@ -409,6 +409,7 @@ namespace unvell.ReoGrid
 				else if (style.Flag.HasAny(PlainStyleFlag.HorizontalAlign
 					| PlainStyleFlag.VerticalAlign
 					| PlainStyleFlag.TextWrap
+                    | PlainStyleFlag.ShrinkToFit
 					| PlainStyleFlag.Indent
 					| PlainStyleFlag.RotationAngle))
 				{
@@ -1267,10 +1268,16 @@ namespace unvell.ReoGrid
 		/// </summary>
 		RotationAngle = 0x1000000,
 
-		/// <summary>
-		/// [Union flag] All flags of font style
-		/// </summary>
-		FontStyleAll = FontStyleBold | FontStyleItalic
+        /// <summary>
+        /// ShrinkToFit
+        /// </summary>
+        ShrinkToFit = 0x2000000,
+
+
+        /// <summary>
+        /// [Union flag] All flags of font style
+        /// </summary>
+        FontStyleAll = FontStyleBold | FontStyleItalic
 			| FontStyleStrikethrough | FontStyleUnderline,
 
 		/// <summary>
@@ -1286,7 +1293,7 @@ namespace unvell.ReoGrid
 		/// <summary>
 		/// [Union flag] All layout styles (Text-wrap, padding and angle)
 		/// </summary>
-		LayoutAll = TextWrap | Padding | RotationAngle,
+		LayoutAll = TextWrap | Padding | RotationAngle | ShrinkToFit,
 
 		/// <summary>
 		/// [Union flag] Both horizontal and vertical alignments
@@ -1572,10 +1579,15 @@ namespace unvell.ReoGrid
 		/// </summary>
 		public TextWrapMode TextWrapMode { get; set; }
 
-		/// <summary>
-		/// Get or set text indent (0-65535)
-		/// </summary>
-		public ushort Indent { get; set; }
+        /// <summary>
+        /// Get or set ShrinkToFit
+        /// </summary>
+        public bool ShrinkToFit { get; set; }
+
+        /// <summary>
+        /// Get or set text indent (0-65535)
+        /// </summary>
+        public ushort Indent { get; set; }
 
 		/// <summary>
 		/// Get or set padding of cell.
@@ -1667,7 +1679,9 @@ namespace unvell.ReoGrid
 				&& this.Underline != s2.Underline) return false;
 			if ((this.Flag & PlainStyleFlag.TextWrap) == PlainStyleFlag.TextWrap
 				&& this.TextWrapMode != s2.TextWrapMode) return false;
-			if ((this.Flag & PlainStyleFlag.Indent) == PlainStyleFlag.Indent
+            if ((this.Flag & PlainStyleFlag.ShrinkToFit) == PlainStyleFlag.ShrinkToFit
+                && this.ShrinkToFit != s2.ShrinkToFit) return false;
+            if ((this.Flag & PlainStyleFlag.Indent) == PlainStyleFlag.Indent
 				&& this.Indent != s2.Indent) return false;
 			if ((this.Flag & PlainStyleFlag.Padding) == PlainStyleFlag.Padding
 				&& this.Padding != s2.Padding) return false;
@@ -2838,11 +2852,28 @@ namespace unvell.ReoGrid
 				});
 			}
 		}
+        public bool ShrinkToFit
+        {
+            get
+            {
+                CheckReferenceValidity();
+                return this.Cell.InnerStyle.ShrinkToFit;
+            }
+            set
+            {
+                CheckReferenceValidity();
+                this.Worksheet.SetCellStyleOwn(this.Cell, new WorksheetRangeStyle
+                {
+                    Flag = PlainStyleFlag.ShrinkToFit,
+                    ShrinkToFit = value,
+                });
+            }
+        }
 
-		/// <summary>
-		/// Get or set cell indent.
-		/// </summary>
-		public ushort Indent
+        /// <summary>
+        /// Get or set cell indent.
+        /// </summary>
+        public ushort Indent
 		{
 			get
 			{

@@ -695,6 +695,7 @@ namespace unvell.ReoGrid.WinForm
 						cell.InnerStyle.FontSize * scale, cell.RenderFont.Style);
 					break;
 			}
+
 			#endregion // Determine text bounds
 
 			lock (this.sf)
@@ -712,8 +713,23 @@ namespace unvell.ReoGrid.WinForm
 
 				var g = base.PlatformGraphics;
 
-				#region Rotate text
-				if (cell.InnerStyle.RotationAngle != 0)
+                float fsize = scaledFont.Size;
+                while (cell.InnerStyle.ShrinkToFit)
+                {
+                    var s = g.MeasureString(cell.DisplayText, scaledFont);
+                    if (s.Width > cell.Width)
+                        fsize -= 0.1f;
+                    else
+                        break;
+
+                    if (fsize <= 1)
+                        break;
+
+                    scaledFont = new Font(scaledFont.Name, fsize);
+                }
+
+                #region Rotate text
+                if (cell.InnerStyle.RotationAngle != 0)
 				{
 #if DEBUG1
 					g.DrawRectangle(Pens.Red, (System.Drawing.Rectangle)textBounds);

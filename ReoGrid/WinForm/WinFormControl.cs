@@ -492,6 +492,7 @@ namespace unvell.ReoGrid
 				editTextbox.SuspendLayout();
 				editTextbox.Bounds = rect;
 				editTextbox.TextWrap = cell.IsMergedCell || cell.InnerStyle.TextWrapMode != TextWrapMode.NoWrap;
+                editTextbox.ShrinkToFit = cell.InnerStyle.ShrinkToFit;
 				editTextbox.InitialSize = rect.Size;
 				editTextbox.VAlign = cell.InnerStyle.VAlign;
 				editTextbox.Font = cell.RenderFont;
@@ -1009,7 +1010,9 @@ namespace unvell.ReoGrid
 		{
 			private ReoGridControl owner;
 			internal bool TextWrap { get; set; }
-			internal Size InitialSize { get; set; }
+            internal bool ShrinkToFit { get; set; }
+
+            internal Size InitialSize { get; set; }
 			internal ReoGridVerAlign VAlign { get; set; }
 			private System.Drawing.Graphics graphics;
 			private StringFormat sf;

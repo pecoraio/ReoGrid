@@ -1221,8 +1221,14 @@ namespace unvell.ReoGrid.IO.OpenXML
 					styleset.TextWrapMode = TextWrapMode.WordBreak;
 				}
 
-				// text rotation
-				if (!string.IsNullOrEmpty(style.alignment.textRotation))
+                if (TextFormatHelper.IsSwitchOn(style.alignment.shrinkToFit))
+                {
+                    styleset.Flag |= PlainStyleFlag.ShrinkToFit;
+                    styleset.ShrinkToFit = true;
+                }
+
+                // text rotation
+                if (!string.IsNullOrEmpty(style.alignment.textRotation))
 				{
 					int angle;
 

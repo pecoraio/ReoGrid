@@ -109,8 +109,12 @@ namespace unvell.ReoGrid.Utility
 			{
 				distinctedFlag &= ~PlainStyleFlag.TextWrap;
 			}
-
-			if (StyleUtility.HasStyle(style, PlainStyleFlag.Indent)
+            if (StyleUtility.HasStyle(style, PlainStyleFlag.ShrinkToFit)
+                && style.ShrinkToFit == referStyle.ShrinkToFit)
+            {
+                distinctedFlag &= ~PlainStyleFlag.ShrinkToFit;
+            }
+            if (StyleUtility.HasStyle(style, PlainStyleFlag.Indent)
 				&& style.Indent == referStyle.Indent)
 			{
 				distinctedFlag &= ~PlainStyleFlag.Indent;
@@ -230,7 +234,10 @@ namespace unvell.ReoGrid.Utility
 			if ((flag & PlainStyleFlag.TextWrap) == PlainStyleFlag.TextWrap)
 				targetStyle.TextWrapMode = sourceStyle.TextWrapMode;
 
-			if ((flag & PlainStyleFlag.Indent) == PlainStyleFlag.Indent)
+            if ((flag & PlainStyleFlag.ShrinkToFit) == PlainStyleFlag.ShrinkToFit)
+                targetStyle.ShrinkToFit = sourceStyle.ShrinkToFit;
+
+            if ((flag & PlainStyleFlag.Indent) == PlainStyleFlag.Indent)
 				targetStyle.Indent = sourceStyle.Indent;
 
 			if ((flag & PlainStyleFlag.Padding) == PlainStyleFlag.Padding)
@@ -317,7 +324,12 @@ namespace unvell.ReoGrid.Utility
 			else if ((flag2 & PlainStyleFlag.TextWrap) == PlainStyleFlag.TextWrap)
 				style.TextWrapMode = style2.TextWrapMode;
 
-			if ((flag1 & PlainStyleFlag.Indent) == PlainStyleFlag.Indent)
+            if ((flag1 & PlainStyleFlag.ShrinkToFit) == PlainStyleFlag.ShrinkToFit)
+                style.ShrinkToFit = style1.ShrinkToFit;
+            else if ((flag2 & PlainStyleFlag.ShrinkToFit) == PlainStyleFlag.ShrinkToFit)
+                style.ShrinkToFit = style2.ShrinkToFit;
+
+            if ((flag1 & PlainStyleFlag.Indent) == PlainStyleFlag.Indent)
 				style.Indent = style1.Indent;
 			else if ((flag2 & PlainStyleFlag.Indent) == PlainStyleFlag.Indent)
 				style.Indent = style2.Indent;
@@ -428,7 +440,9 @@ namespace unvell.ReoGrid.Utility
 				xmlStyle.vAlign = XmlFileFormatHelper.EncodeVerticalAlign(style.VAlign);
 			if (StyleUtility.HasStyle(style, PlainStyleFlag.TextWrap))
 				xmlStyle.textWrap = XmlFileFormatHelper.EncodeTextWrapMode(style.TextWrapMode);
-			if (StyleUtility.HasStyle(style, PlainStyleFlag.Indent))
+            if (StyleUtility.HasStyle(style, PlainStyleFlag.ShrinkToFit))
+                xmlStyle.shrinkToFit = style.ShrinkToFit.ToString();
+            if (StyleUtility.HasStyle(style, PlainStyleFlag.Indent))
 				xmlStyle.indent = style.Indent.ToString();
 			if (StyleUtility.HasStyle(style, PlainStyleFlag.Padding))
 				xmlStyle.padding = TextFormatHelper.EncodePadding(style.Padding);
@@ -537,9 +551,15 @@ namespace unvell.ReoGrid.Utility
 				style.Flag |= PlainStyleFlag.TextWrap;
 				style.TextWrapMode = XmlFileFormatHelper.DecodeTextWrapMode(xmlStyle.textWrap);
 			}
+            if (!string.IsNullOrEmpty(xmlStyle.shrinkToFit))
+            {
+                style.Flag |= PlainStyleFlag.ShrinkToFit;
+                style.ShrinkToFit = xmlStyle.shrinkToFit== "shrinkToFit";
+            }
 
-			// padding
-			if (!string.IsNullOrEmpty(xmlStyle.indent))
+
+            // padding
+            if (!string.IsNullOrEmpty(xmlStyle.indent))
 			{
 				style.Flag |= PlainStyleFlag.Indent;
 
@@ -647,7 +667,11 @@ namespace unvell.ReoGrid.Utility
 				&& styleA.TextWrapMode != styleB.TextWrapMode)
 				return false;
 
-			if (styleA.HasStyle(PlainStyleFlag.Indent)
+            if (styleA.HasStyle(PlainStyleFlag.ShrinkToFit)
+                && styleA.ShrinkToFit != styleB.ShrinkToFit)
+                return false;
+
+            if (styleA.HasStyle(PlainStyleFlag.Indent)
 				&& styleA.Indent != styleB.Indent)
 				return false;
 
@@ -685,6 +709,7 @@ namespace unvell.ReoGrid.Utility
 				case PlainStyleFlag.HorizontalAlign: return style.HAlign;
 				case PlainStyleFlag.VerticalAlign: return style.VAlign;
 				case PlainStyleFlag.TextWrap: return style.TextWrapMode;
+                case PlainStyleFlag.ShrinkToFit:return style.ShrinkToFit;
 				case PlainStyleFlag.Indent: return style.Indent;
 				case PlainStyleFlag.Padding: return style.Padding;
 				case PlainStyleFlag.RotationAngle: return style.RotationAngle;

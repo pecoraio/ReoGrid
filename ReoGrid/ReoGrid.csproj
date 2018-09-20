@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>unvell.ReoGrid</RootNamespace>
-    <AssemblyName>unvell.ReoGrid</AssemblyName>
+    <AssemblyName>ReoGridStF</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -56,7 +56,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Release\unvell.ReoGrid.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\ReoGridStF.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Minimum|AnyCPU' ">
@@ -69,7 +69,7 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Minimum\unvell.ReoGrid.XML</DocumentationFile>
+    <DocumentationFile>bin\Minimum\ReoGridStF.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -92,7 +92,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'WPFRelease|AnyCPU'">
     <OutputPath>bin\WPFRelease\</OutputPath>
     <DefineConstants>TRACE;WPF;FORMULA;LANG_JP;OUTLINE;DRAWING;PRINT</DefineConstants>
-    <DocumentationFile>bin\WPFRelease\unvell.ReoGrid.XML</DocumentationFile>
+    <DocumentationFile>bin\WPFRelease\ReoGridStF.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -108,14 +108,14 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\WPFMinimum\unvell.ReoGrid.XML</DocumentationFile>
+    <DocumentationFile>bin\WPFMinimum\ReoGridStF.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Extension|AnyCPU' ">
     <OutputPath>bin\Extension\</OutputPath>
     <DefineConstants>TRACE;EX;WINFORM;FORMULA;EX_SCRIPT;LANG_JP;OUTLINE;DRAWING;PRINT;RICHTEXT;</DefineConstants>
-    <DocumentationFile>bin\Extension\unvell.ReoGrid.XML</DocumentationFile>
+    <DocumentationFile>bin\Extension\ReoGridStF.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -126,7 +126,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'WPFExtension|AnyCPU' ">
     <OutputPath>bin\WPFExtension\</OutputPath>
     <DefineConstants>TRACE;EX;WPF;FORMULA;EX_SCRIPT;LANG_JP;OUTLINE;DRAWING;PRINT</DefineConstants>
-    <DocumentationFile>bin\WPFExtension\unvell.ReoGrid.XML</DocumentationFile>
+    <DocumentationFile>bin\WPFExtension\ReoGridStF.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
