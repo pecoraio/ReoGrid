@@ -30,6 +30,8 @@ using RGFloat = System.Double;
 using unvell.ReoGrid.Graphics;
 using unvell.ReoGrid.Rendering;
 using unvell.ReoGrid.Interaction;
+using static unvell.ReoGrid.DataFormat.DateTimeDataFormatter;
+using System.Linq;
 
 namespace unvell.ReoGrid.Data
 {
@@ -121,7 +123,12 @@ namespace unvell.ReoGrid.Data
 					var text = cell.DisplayText;
 					if (string.IsNullOrEmpty(text)) text = LanguageResource.Filter_Blanks;
 
-					if (!columnFilterBody.SelectedTextItems.Contains(text))
+                    if (cell.DataFormat == DataFormat.CellDataFormatFlag.DateTime)//!
+                    {
+                        if(!columnFilterBody.SelectedTextItems.Any(x=>text.StartsWith(x)))
+                            return false;
+                    }
+                    else if (!columnFilterBody.SelectedTextItems.Contains(text))
 					{
 						// hide the row
 						return false;
@@ -512,10 +519,16 @@ namespace unvell.ReoGrid.Data
 						var str = cell.DisplayText;
 						if (string.IsNullOrEmpty(str)) str = LanguageResource.Filter_Blanks;
 
-						if (!items.Contains(str))
-						{
-							items.Add(str);
-						}
+                        if (cell.DataFormat == DataFormat.CellDataFormatFlag.DateTime)//!
+                        {
+                            if (DateTime.TryParse(str, out var dt))
+                                str = dt.ToString(((DateTimeFormatArgs)cell.DataFormatArgs).Format.Split(' ')[0]);
+                        }
+                        if (!items.Contains(str))
+                        {
+                            items.Add(str);
+                        }
+                        
 
 						return true;
 					});

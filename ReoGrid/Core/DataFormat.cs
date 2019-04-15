@@ -965,9 +965,12 @@ namespace unvell.ReoGrid.DataFormat
 
 				CultureInfo culture = null;
 
-				string pattern = System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
+                string pattern = System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
+                if(cell.DataFormatArgs!=null)//!
+                    pattern = ((DateTimeFormatArgs)cell.DataFormatArgs).Format;
 
-				if (cell.DataFormatArgs != null && cell.DataFormatArgs is DateTimeFormatArgs)
+
+                if (cell.DataFormatArgs != null && cell.DataFormatArgs is DateTimeFormatArgs)
 				{
 					DateTimeFormatArgs dargs = (DateTimeFormatArgs)cell.DataFormatArgs;
 

@@ -418,6 +418,10 @@ namespace unvell.ReoGrid
 					var v = cell1.InnerData;
 					SetSingleCellData(cell1, cell2.InnerData);
 					SetSingleCellData(cell2, v);
+                    //!
+                    var s = cell1.InnerStyle;
+                    cell1.InnerStyle = cell2.InnerStyle;
+                    cell2.InnerStyle = s;
 				}
 			}
 		}
@@ -492,12 +496,32 @@ namespace unvell.ReoGrid
 
 					for (int col = startColumn; col <= endColumn; col++)
 					{
-						var v = GetCellData(top, col);
+                        var v = GetCellData(top, col);
 						SetCellData(top, col, GetCellData(bottom, col));
 						SetCellData(bottom, col, v);
-					}
+                        //!
+                        //var tc = cells[top, col];
+                        //var bc = cells[bottom ,col];
+                        //var s = GetCellStyles(top, col);
+                        //var s2 = GetCellStyles(top, bottom);
+                        //if (tc!=null)
+                        //    s.Flag = PlainStyleFlag.BackColor;
+                        //if (bc!=null)
+                        //    s2.Flag = PlainStyleFlag.BackColor;
+                        //s2.Flag = PlainStyleFlag.All;
+                        //SetCellStyleOwn(cells[top, col], s2);
+                        //SetCellStyleOwn(cells[bottom, col], s);
 
-					if (affectRange.IsEmpty)
+                        var st = this.cells[top, col]?.InnerStyle;
+                        //var st2 = new ReferenceCellStyle(this.cells[bottom, col]);
+                        if (cells[bottom, col] != null)
+                            this.cells[top, col].InnerStyle = this.cells[bottom, col].InnerStyle;
+                       if (cells[top, col] != null)
+                            this.cells[bottom, col].InnerStyle = st;
+
+                    }
+
+                    if (affectRange.IsEmpty)
 					{
 						affectRange.Row = start;
 						affectRange.Col = startColumn;
