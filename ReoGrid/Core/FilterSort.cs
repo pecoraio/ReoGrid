@@ -500,24 +500,16 @@ namespace unvell.ReoGrid
 						SetCellData(top, col, GetCellData(bottom, col));
 						SetCellData(bottom, col, v);
                         //!
-                        //var tc = cells[top, col];
-                        //var bc = cells[bottom ,col];
-                        //var s = GetCellStyles(top, col);
-                        //var s2 = GetCellStyles(top, bottom);
-                        //if (tc!=null)
-                        //    s.Flag = PlainStyleFlag.BackColor;
-                        //if (bc!=null)
-                        //    s2.Flag = PlainStyleFlag.BackColor;
-                        //s2.Flag = PlainStyleFlag.All;
-                        //SetCellStyleOwn(cells[top, col], s2);
-                        //SetCellStyleOwn(cells[bottom, col], s);
-
                         var st = this.cells[top, col]?.InnerStyle;
-                        //var st2 = new ReferenceCellStyle(this.cells[bottom, col]);
                         if (cells[bottom, col] != null)
                             this.cells[top, col].InnerStyle = this.cells[bottom, col].InnerStyle;
-                       if (cells[top, col] != null)
+                        if (cells[top, col] != null)
                             this.cells[bottom, col].InnerStyle = st;
+
+                        var tag = this.cells[top, col]?.Tag;
+                        this.cells[top, col].Tag = this.cells[bottom, col]?.Tag;
+                        this.cells[bottom, col].Tag = tag;
+
 
                     }
 

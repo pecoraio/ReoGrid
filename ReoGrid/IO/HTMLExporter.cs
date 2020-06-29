@@ -160,13 +160,26 @@ namespace unvell.ReoGrid.IO
 						string text = null;
 						if (cell != null)
 						{
-							text = string.IsNullOrEmpty(cell.DisplayText) ? "&nbsp;" : 
+                            if (cell.Body is CellTypes.ImageCell ic)
+                            {
+                                using (var ms = new MemoryStream())
+                                {
+                                    (ic.Image as System.Drawing.Bitmap).Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                    var b = ms.ToArray();
+                                    var b64 = System.Convert.ToBase64String(b);
+                                    text = $"<img src=\"data:image/jpdg;base64,{b64}\">";
+                                }
+                            }
+                            else
+                            {
+                                text = string.IsNullOrEmpty(cell.DisplayText) ? "&nbsp;" :
 #if !CLIENT_PROFILE
-								HtmlEncode(cell.DisplayText)
+                                HtmlEncode(cell.DisplayText)
 #else
 								cell.DisplayText
 #endif // CLIENT_PROFILE
-								;
+                                ;
+                            }
 						}
 						else
 							text = "&nbsp;";
